@@ -22,6 +22,7 @@ function formatSecondsToMinutesAndSeconds(seconds) {
 }
 async function getsongs(folder) {
     currentfolder=folder
+    // console.log(currentfolder)
     let songs = await fetch(`http://127.0.0.1:5500/${folder}/`);
     let data = await songs.text();
     // let req=data.getElementById("wrapper");
@@ -99,6 +100,7 @@ playyy.addEventListener("click", () => {
     let div=document.createElement("div");
     div.innerHTML=response;
     let anchors=div.getElementsByTagName("a");
+    // console.log(anchors)
     let arr=Array.from(anchors);
     let cardcontainer=document.querySelector(".cards")
     // console.log(cardcontainer.innerHTML)
@@ -111,7 +113,7 @@ playyy.addEventListener("click", () => {
             {
                 // console.log(e)
                 let fname=e.href.split("/").slice(-1)[0]
-                console.log(fname)
+                // console.log(fname)
                 // getting metadata of the folder
                 let a=await fetch(`http://127.0.0.1:5500/songs/${fname}/info.json`)
                 let jdata=await a.json();
@@ -131,7 +133,7 @@ playyy.addEventListener("click", () => {
      //loading songs when ever the cards were clicked
      Array.from(document.getElementsByClassName("card1")).forEach(e=>{
         e.addEventListener("click",async item=>{
-            // console.log(item.currentTarget.dataset)
+            console.log(item.currentTarget)
             songs = await getsongs(`songs/${item.currentTarget.dataset.folder}`); 
             playmusic(songs[0]);
         })
@@ -143,13 +145,14 @@ async function main() {
     
     //getting all the songs
     // console.log(currentfolder)
-     songslist=await getsongs("songs/new")
+     displayAlbums();
+    //  songslist=await getsongs()
+    //  console.log(currentfolder)
     // console.log(songslist)
     // console.log(currentsong)
     playmusic(ar[0]);
     playyy.src = "play.svg";
     // console.log(songslist)
-   displayAlbums();
     // updating current song duration and playtime
     currentsong.addEventListener("timeupdate", () => {
         document.querySelector(".min").innerHTML = formatSecondsToMinutesAndSeconds(currentsong.duration)
