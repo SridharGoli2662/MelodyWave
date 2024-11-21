@@ -4,6 +4,7 @@ let currentfolder;
 let songslist;
 let ar;
 let progbarconatiner=document.getElementById("pgcontainer");
+// console.log(currentsong.currentTime)
  //updating seek bar
 let pgbar=document.getElementById("pgrs");
 // let pg=document.getElementsByClassName(".seek");
@@ -60,6 +61,7 @@ async function getsongs(folder) {
         e.addEventListener("click", ele => {
             // console.log(e.querySelector(".song_info").firstElementChild.innerHTML)
             playmusic(e.querySelector(".song_info").firstElementChild.innerHTML)
+            // console.log(ele)
         })
     })
     return ar;
@@ -95,6 +97,7 @@ playyy.addEventListener("click", () => {
 //fuction to convert seconds into minutes:seconds format
  async function displayAlbums()
  {
+    //this would be the problem i think for not loading albums on server
     let f = await fetch(`http://127.0.0.1:5500/songs/`);
     let response = await f.text();
     let div=document.createElement("div");
@@ -133,7 +136,7 @@ playyy.addEventListener("click", () => {
      //loading songs when ever the cards were clicked
      Array.from(document.getElementsByClassName("card1")).forEach(e=>{
         e.addEventListener("click",async item=>{
-            console.log(item.currentTarget)
+            // console.log(item.currentTarget)
             songs = await getsongs(`songs/${item.currentTarget.dataset.folder}`); 
             playmusic(songs[0]);
         })
@@ -142,7 +145,6 @@ playyy.addEventListener("click", () => {
 
  
 async function main() {
-    
     //getting all the songs
     // console.log(currentfolder)
      displayAlbums();
@@ -150,18 +152,18 @@ async function main() {
     //  console.log(currentfolder)
     // console.log(songslist)
     // console.log(currentsong)
-    playmusic(ar[0]);
+    // console.log(ar)
     playyy.src = "play.svg";
     // console.log(songslist)
     // updating current song duration and playtime
     currentsong.addEventListener("timeupdate", () => {
         document.querySelector(".min").innerHTML = formatSecondsToMinutesAndSeconds(currentsong.duration)
         document.querySelector(".sec").innerHTML = formatSecondsToMinutesAndSeconds(currentsong.currentTime);
-
     })
     currentsong.addEventListener("timeupdate",e=>{
         update=parseInt((currentsong.currentTime/currentsong.duration)*100);
         document.getElementById("pgrs").value=update;
+        // console.log(update)
         // console.log(document.getElementById("pgrs"));
 
     })
@@ -214,7 +216,7 @@ async function main() {
     })
     // adding event listener to next button
     next.addEventListener("click",()=>{
-        console.log(songslist.indexOf(currentsong.src.split("/").slice(-1)[0].replaceAll("%20"," ")));
+        // console.log(songslist.indexOf(currentsong.src.split("/").slice(-1)[0].replaceAll("%20"," ")));
         let songIndex=songslist.indexOf(currentsong.src.split("/").slice(-1)[0].replaceAll("%20"," "));
         if((songIndex+1)<songslist.length)
         {

@@ -328,8 +328,8 @@
         left: -100%;
         transition: all 1s;
         z-index: 1;
-        width: 26vw;
-        height: 85vh;
+        width: 35vw;
+        height: 100vh;
         background-color: black;
     }
 
@@ -439,6 +439,7 @@
 
     #left {
         width: 80vw;
+        height: 100vh;
     }
 
     .contols {
