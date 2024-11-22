@@ -24,7 +24,7 @@ function formatSecondsToMinutesAndSeconds(seconds) {
 async function getsongs(folder) {
     currentfolder=folder
     // console.log(currentfolder)
-    let songs = await fetch(`http://127.0.0.1:5500/${folder}/`);
+    let songs = await fetch(`/${folder}/`);
     let data = await songs.text();
     // let req=data.getElementById("wrapper");
     // console.log(data)
@@ -98,8 +98,10 @@ playyy.addEventListener("click", () => {
  async function displayAlbums()
  {
     //this would be the problem i think for not loading albums on server
-    let f = await fetch(`http://127.0.0.1:5500/songs/`);
+    let f = await fetch(`/songs/`);
+    // console.log(f)
     let response = await f.text();
+    // console.log(response)
     let div=document.createElement("div");
     div.innerHTML=response;
     let anchors=div.getElementsByTagName("a");
@@ -118,7 +120,7 @@ playyy.addEventListener("click", () => {
                 let fname=e.href.split("/").slice(-1)[0]
                 // console.log(fname)
                 // getting metadata of the folder
-                let a=await fetch(`http://127.0.0.1:5500/songs/${fname}/info.json`)
+                let a=await fetch(`/songs/${fname}/info.json`)
                 let jdata=await a.json();
                 // console.log(jdata);
                 // console.log(cards.innerHTML)
