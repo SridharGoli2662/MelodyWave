@@ -23,9 +23,11 @@ function formatSecondsToMinutesAndSeconds(seconds) {
 }
 async function getsongs(folder) {
     currentfolder=folder
-    // console.log(currentfolder)
-    let songs = await fetch(`/${folder}/`);
+    console.log(currentfolder)
+    let songs = await fetch(`${folder}/`);
     let data = await songs.text();
+    // console.log(songs)
+    // console.log(data)
     // let req=data.getElementById("wrapper");
     // console.log(data)
     let div = document.createElement("div")
@@ -36,7 +38,7 @@ async function getsongs(folder) {
     for (let index = 0; index < s.length; index++) {
         const ele = s[index];
         if (ele.href.endsWith(".mp3")) {
-            ar.push(ele.href.split(`/${folder}/`)[1].replaceAll("%20", " "));
+            ar.push(ele.href.split(`${folder}/`)[1].replaceAll("%20", " "));
         }
         // console.log(ele)
     }
@@ -67,7 +69,7 @@ async function getsongs(folder) {
     return ar;
 }
 const playmusic = (aud) => {
-    currentsong.src = `/${currentfolder}/` + aud;
+    currentsong.src = `${currentfolder}/` + aud;
     currentsong.play();
     document.querySelector("#songname").innerHTML = aud;
     playyy.src = "pause.svg";
@@ -98,8 +100,8 @@ playyy.addEventListener("click", () => {
  async function displayAlbums()
  {
     //this would be the problem i think for not loading albums on server
-    let f = await fetch(`/songs/`);
-    // console.log(f)
+    let f = await fetch(`public/songs/`);
+    console.log(f)
     let response = await f.text();
     // console.log(response)
     let div=document.createElement("div");
@@ -114,13 +116,13 @@ playyy.addEventListener("click", () => {
     {
         // console.log(arr[i])
         const e=arr[i];
-            if(e.href.includes("/songs/"))
+            if(e.href.includes("public/songs/"))
             {
                 // console.log(e)
                 let fname=e.href.split("/").slice(-1)[0]
                 // console.log(fname)
                 // getting metadata of the folder
-                let a=await fetch(`/songs/${fname}/info.json`)
+                let a=await fetch(`public/songs/${fname}/info.json`)
                 let jdata=await a.json();
                 // console.log(jdata);
                 // console.log(cards.innerHTML)
@@ -129,7 +131,7 @@ playyy.addEventListener("click", () => {
                 <div class="playbtn">
                 <img src="playbtn.svg" alt="playbtn">
             </div>
-            <img src="/songs/${fname}/cover.jpeg" alt="coverphoto">
+            <img src="public/songs/${fname}/cover.jpeg" alt="coverphoto">
             <h3>${jdata.title}</h3>
             <p>${jdata.description}</p>
             </div>`
@@ -139,7 +141,7 @@ playyy.addEventListener("click", () => {
      Array.from(document.getElementsByClassName("card1")).forEach(e=>{
         e.addEventListener("click",async item=>{
             // console.log(item.currentTarget)
-            songs = await getsongs(`songs/${item.currentTarget.dataset.folder}`); 
+            songs = await getsongs(`public/songs/${item.currentTarget.dataset.folder}`); 
             playmusic(songs[0]);
         })
     })
